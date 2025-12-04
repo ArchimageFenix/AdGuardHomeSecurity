@@ -275,7 +275,7 @@ Cuando IPv6 domine:
 - pero los ataques serán más dirigidos,
 - y estas defensas serán todavía más importantes.
 
-Si otros administradores adoptaran esta guía:
+Si aplicamos este enfoque probado por dos años:
 - AdGuard Home sería un objetivo más duro en todo el mundo
 - las botnets verían reducida su eficacia
 - la comunidad subiría el nivel base de seguridad

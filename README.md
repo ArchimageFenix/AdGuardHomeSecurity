@@ -138,7 +138,7 @@ Todas probadas con: DROP no con REJECT para evitar consumo de CPU en respuestas 
 
 # 8. Doble Defensa: Auth Interno + Bloqueo Criptográfico
 
-Cuando hay intentos al panel, AdGuard Home desde su mosulo "auth" puede emitir:
+Cuando hay intentos al panel, AdGuard Home desde su modulo "auth" puede emitir:
 > `blocked for 60 min`
 
 Pero aunque no muestre la IP ahí,

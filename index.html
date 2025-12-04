@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guía de Seguridad para AdGuard Home Público (DoT/DoH)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --code-bg: #020617;
+      --badge-bg: #0b1120;
+      --badge-border: #1d4ed8;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+      --radius-lg: 18px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1d283a, #020617 50%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #020617, #020617 40%, #0b1120 100%);
+      border-radius: 24px;
+      padding: 24px 22px 24px;
+      border: 1px solid #1f2937;
+      box-shadow: var(--shadow-soft);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      margin: 0 0 4px;
+      font-size: 1.6rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header h1 span.icon {
+      font-size: 1.7rem;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .badge-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.78rem;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+    }
+
+    .badge strong {
+      color: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 880px) {
+      header {
+        position: static;
+      }
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    aside {
+      position: sticky;
+      top: 120px;
+      align-self: start;
+      background: linear-gradient(145deg, #020617, #020617 50%, #020617 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 14px 14px 14px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.7);
+      font-size: 0.84rem;
+    }
+
+    aside h3 {
+      margin: 0 0 10px;
+      font-size: 0.94rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .toc {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .toc li {
+      margin: 4px 0;
+    }
+
+    .toc a {
+      color: var(--muted);
+      text-decoration: none;
+      display: block;
+      padding: 4px 0;
+      border-radius: 6px;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid #111827;
+      padding: 22px 20px 26px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.85);
+    }
+
+    section {
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #1f2937;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.15rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 9px;
+      letter-spacing: 0.03em;
+    }
+
+    h3 {
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    p {
+      margin: 4px 0 10px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    ul, ol {
+      margin: 4px 0 10px 18px;
+      padding-left: 0;
+      color: var(--text);
+      font-size: 0.94rem;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Consolas, Menlo, monospace;
+      font-size: 0.9rem;
+      background: var(--code-bg);
+      padding: 2px 5px;
+      border-radius: 4px;
+      border: 1px solid #1f2937;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      overflow-x: auto;
+      font-size: 0.86rem;
+      border: 1px solid #1f2937;
+      margin: 6px 0 12px;
+    }
+
+    pre code {
+      border: none;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 6px 0 10px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 7px 8px;
+      border: 1px solid #1f2937;
+    }
+
+    th {
+      background: #020617;
+      text-align: left;
+      color: var(--muted);
+    }
+
+    tr:nth-child(even) td {
+      background: #020617;
+    }
+
+    .note {
+      border-radius: var(--radius-md);
+      padding: 8px 9px;
+      border: 1px solid #1d4ed8;
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 4px 0 10px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 10px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill-list li {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .highlight {
+      color: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1><span class="icon">🛡️</span> Guía de Seguridad para AdGuard Home Público (DoT/DoH)</h1>
+      <h2>Endurecimiento basado en TLS, análisis de logs y mitigación automática</h2>
+      <div class="badge-row">
+        <div class="badge"><strong>Stack:</strong> AdGuard Home · Go · TLS 1.3 · Fail2ban · ipset · Tailscale</div>
+        <div class="badge"><strong>Enfoque:</strong> Detección por comportamiento criptográfico</div>
+        <div class="badge"><strong>Futuro:</strong> Impacto de IPv6 en el escaneo global</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <main>
+        <section id="intro">
+          <h2>1. Introducción</h2>
+          <p>
+            Cuando <strong>AdGuard Home</strong> se expone a Internet como servidor DNS cifrado
+            (<em>DNS-over-TLS</em> / <em>DNS-over-HTTPS</em>), se convierte en un objetivo constante de:
+          </p>
+          <ul>
+            <li>bots automatizados,</li>
+            <li>escáneres globales,</li>
+            <li>herramientas de fingerprinting TLS,</li>
+            <li>y pruebas oportunistas de exploit.</li>
+          </ul>
+          <p>
+            Esta guía describe una arquitectura de defensa robusta, pensada para un VPS pequeño o mediano, pero
+            con prácticas dignas de infra profesional. Se basa en:
+          </p>
+          <ul>
+            <li><span class="highlight">TLS 1.3 estricto</span> y <span class="highlight">Strict-SNI</span>,</li>
+            <li>análisis de logs de handshake TLS generados por AdGuard (Go),</li>
+            <li>Fail2ban con expresiones específicas para anomalías TLS,</li>
+            <li>bloqueo kernel-level mediante <code>ipset</code>,</li>
+            <li>rate-limit y allowlist geográfico,</li>
+            <li>acceso administrativo aislado (Tailscale + SSH por llave),</li>
+            <li>y reporte automático a AbuseIPDB.</li>
+          </ul>
+          <div class="note">
+            Esta guía es útil aunque la infraestructura sea “pequeña”: los ataques de Internet no distinguen
+            tamaño, solo oportunidad. Un VPS personal expuesto sufre el mismo tipo de escaneo que un servidor
+            corporativo.
+          </div>
+        </section>
+
+        <section id="surface">
+          <h2>2. Superficie de Exposición Mínima</h2>
+          <p>Para AdGuard Home como DNS cifrado público, se exponen únicamente estos puertos:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Puerto</th>
+                <th>Uso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>443/tcp</td>
+                <td>DNS-over-HTTPS (DoH)</td>
+              </tr>
+              <tr>
+                <td>853/tcp</td>
+                <td>DNS-over-TLS (DoT)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Todo lo demás, debe ir a <code>DROP</code> por defecto. Esto reduce dramáticamente:
+          </p>
+          <ul>
+            <li>fingerprinting y enumeración de servicios,</li>
+            <li>escaneo automatizado de puertos,</li>
+            <li>y vectores aleatorios de explotación.</li>
+          </ul>
+        </section>
+
+        <section id="tls">
+          <h2>3. Seguridad TLS Estricta (TLS 1.3 Only + Ciphers Modernos)</h2>
+          <p>El servidor debe aceptar únicamente <strong>TLS 1.3</strong>. Nada de TLS 1.2 o inferior.</p>
+          <h3>Cipher suites recomendadas</h3>
+          <ul class="pill-list">
+            <li>TLS_CHACHA20_POLY1305_SHA256</li>
+            <li>TLS_AES_256_GCM_SHA384</li>
+            <li>TLS_AES_128_GCM_SHA256</li>
+          </ul>
+          <p>Beneficios de esta política:</p>
+          <ul>
+            <li>Forward Secrecy obligatoria.</li>
+            <li>Protección contra ataques de downgrade.</li>
+            <li>Exclusión automática de clientes y bots con librerías TLS antiguas.</li>
+          </ul>
+        </section>
+
+        <section id="sni">
+          <h2>4. Strict-SNI</h2>
+          <p>
+            Con <strong>Strict-SNI</strong> activado, el cliente debe presentar un hostname válido en el
+            handshake (extensión SNI). Si no lo hace:
+          </p>
+          <ul>
+            <li>el handshake falla de inmediato,</li>
+            <li>no se presenta certificado,</li>
+            <li>y se genera un log TLS apto para Fail2ban.</li>
+          </ul>
+          <p>
+            Esto filtra automáticamente scanners ciegos, fuzzers y herramientas de reconocimiento TLS que no
+            respetan bien el protocolo.
+          </p>
+        </section>
+
+        <section id="go-tls">
+          <h2>5. Backend TLS Seguro en Go (AdGuard Home)</h2>
+          <p>
+            AdGuard Home está escrito en Go y usa <code>crypto/tls</code>, lo que implica validaciones profundas de:
+          </p>
+          <ul>
+            <li>estructura de <code>ClientHello</code>,</li>
+            <li>certificados y cadenas,</li>
+            <li>firmas y algoritmos permitidos,</li>
+            <li>curvas criptográficas,</li>
+            <li>extensiones TLS y compatibilidad con TLS 1.3.</li>
+          </ul>
+          <p>
+            Cuando algo es inválido, aparecen mensajes como:
+          </p>
+          <ul>
+            <li><code>tls_signature error</code></li>
+            <li><code>tls bad certificate</code></li>
+            <li><code>doesn't look like a TLS handshake</code></li>
+          </ul>
+          <p>
+            Estas trazas NO las genera un navegador ni un cliente DoT/DoH legítimo. Son huellas de:
+          </p>
+          <ul>
+            <li>bots,</li>
+            <li>escáneres automáticos,</li>
+            <li>fuzzers TLS,</li>
+            <li>librerías viejas o mal implementadas,</li>
+            <li>payloads no-TLS inyectados en puertos TLS.</li>
+          </ul>
+        </section>
+
+        <section id="admin">
+          <h2>6. Acceso Administrativo Seguro (Panel + SSH)</h2>
+          <h3>Panel Web de AdGuard Home</h3>
+          <ul>
+            <li>Contraseña larga generada con keepassxc (&gt;15 caracteres).</li>
+            <li>Integración con Fail2ban para ban al primer intento fallido.</li>
+            <li>Bloqueo interno (“blocked for 60 min”) ante intentos repetidos.</li>
+          </ul>
+          <h3>SSH</h3>
+          <ul>
+            <li>SSH no expuesto a Internet.</li>
+            <li>Acceso solo mediante <strong>Tailscale</strong> (WireGuard), como red privada.</li>
+            <li>Autenticación exclusivamente por llave SSH, sin contraseña.</li>
+          </ul>
+          <div class="note">
+            Con este enfoque, el puerto SSH es invisible para bots y scanners, y la autenticación por llave
+            hace la fuerza bruta impráctica.
+          </div>
+        </section>
+
+        <section id="fail2ban">
+          <h2>7. Fail2ban basado en Logs TLS (Detección por Comportamiento)</h2>
+          <p>
+            En lugar de centrarse solo en intentos fallidos de login, Fail2ban se configura para reaccionar ante
+            <strong>anomalías TLS</strong>, por ejemplo:
+          </p>
+          <ul>
+            <li>handshake inválidos,</li>
+            <li>certificados corruptos o mal formados,</li>
+            <li>SNI ausente o mal construido,</li>
+            <li>firmas incompatibles,</li>
+            <li>payloads que “no parecen un handshake TLS”.</li>
+          </ul>
+          <p>Patrones típicos a vigilar en los logs de AdGuard Home:</p>
+          <ul>
+            <li><code>tls_signature error</code></li>
+            <li><code>tls bad certificate</code></li>
+            <li><code>doesn't look like a TLS handshake</code></li>
+          </ul>
+          <p>
+            Estas condiciones son, prácticamente, exclusivas de tráfico automatizado o malicioso. Al detectarlas:
+          </p>
+          <ul>
+            <li>Fail2ban extrae la IP,</li>
+            <li>la envía a un set de <code>ipset</code>,</li>
+            <li>y el kernel aplica <code>DROP</code>.</li>
+          </ul>
+        </section>
+
+        <section id="regex">
+          <h2>8. Regex Específicas y Probadas</h2>
+          <p>
+            Para evitar falsos positivos, las expresiones se diseñan sobre logs reales y se prueban con
+            <code>fail2ban-regex</code>.
+          </p>
+          <p>Principios:</p>
+          <ul>
+            <li>No usar patrones genéricos como <code>.*error.*</code>.</li>
+            <li>Capturar mensajes concretos de Go TLS.</li>
+            <li>Usar el grupo <code>(?P&lt;host&gt;...)</code> para la IP.</li>
+          </ul>
+        </section>
+
+        <section id="dual-defense">
+          <h2>9. Doble Defensa: Auth Interno + Bloqueo Criptográfico</h2>
+          <p>
+            AdGuard Home puede mostrar mensajes como <code>blocked for 60 min</code> cuando detecta abusos de
+            login en el panel.
+          </p>
+          <p>Sin embargo, la defensa más poderosa ocurre antes:</p>
+          <ul>
+            <li>
+              Si un cliente rompe el handshake TLS, presenta un certificado inválido o “no parece TLS”, Fail2ban
+              lo banea sin darle oportunidad de llegar a la capa HTTP.
+            </li>
+            <li>
+              Esto significa que muchos bots son bloqueados sin que jamás intenten propiamente un login al panel.
+            </li>
+          </ul>
+          <p>
+            Es la misma filosofía de plataformas como Cloudflare/Akamai: si el comportamiento a nivel de protocolo
+            no es legítimo, la aplicación nunca entra en juego.
+          </p>
+        </section>
+
+        <section id="bans">
+          <h2>10. Ban Inmediato y ipset</h2>
+          <p>Dado que estas anomalías TLS son señales extremadamente claras de bot o scanner:</p>
+          <ul>
+            <li><code>maxretry = 1</code> es totalmente razonable.</li>
+            <li>Bans de 3 días o más son adecuados.</li>
+          </ul>
+          <p>
+            El uso de <code>ipset</code> permite que el kernel bloquee la IP de forma eficiente y silenciosa, sin
+            re-negociaciones ni consumo extra de CPU.
+          </p>
+          <p>
+            Es normal observar entre <strong>120 y 170 IPs</strong> en el set bloqueado: esto refleja la realidad de
+            Internet actual, no un problema de configuración.
+          </p>
+        </section>
+
+        <section id="rate-geo">
+          <h2>11. Rate-limit y Allowlist Geográfico</h2>
+          <p>
+            Para reducir aún más el ruido y los intentos de abuso, se aplican:
+          </p>
+          <ul>
+            <li><strong>Rate-limit</strong> de ~22 consultas por segundo para DNS cifrado.</li>
+            <li>
+              <strong>Allowlist geográfico</strong>, permitiendo solo rangos de IP del país o region donde realmente
+              se utilizará el servicio.
+            </li>
+          </ul>
+          <p>
+            Estas dos medidas eliminan la gran mayoría de tráfico basura proveniente de botnets globales y
+            escáneres masivos.
+          </p>
+        </section>
+
+        <section id="abuseipdb">
+          <h2>12. Reporte Automático a AbuseIPDB</h2>
+          <p>
+            Cada IP detectada como hostil no solo se banea localmente, sino que también se reporta a
+            <strong>AbuseIPDB</strong> mediante su API.
+          </p>
+          <p>Esto tiene varios efectos positivos:</p>
+          <ul>
+            <li>Contribuye a la reputación negativa de IPs maliciosas.</li>
+            <li>Dificulta la vida a botnets reutilizando ese rango.</li>
+            <li>Ayuda a otros administradores que confían en estas listas de reputación.</li>
+          </ul>
+        </section>
+
+        <section id="ipv4">
+          <h2>13. Realidad Actual en IPv4: Visibles y Escaneables</h2>
+          <p>
+            En IPv4, el espacio de direcciones es lo suficientemente pequeño como para que cualquiera pueda
+            escanear grandes porciones (o todo el espacio público) en minutos usando herramientas como
+            <code>masscan</code> o <code>zmap</code>.
+          </p>
+          <p>Conclusión:</p>
+          <ul>
+            <li>Todo servidor AdGuard Home público en IPv4 será detectado.</li>
+            <li>Será escaneado repetidamente.</li>
+            <li>Será probado como posible objetivo de ataque.</li>
+          </ul>
+          <p>
+            Ver 120–170 IPs bloqueadas en <code>ipset</code> no es extraño; es evidencia del entorno hostil en el que
+            vivimos hoy.
+          </p>
+        </section>
+
+        <section id="ipv6">
+          <h2>14. IPv6: El Futuro del Escaneo y la Necesidad de Prepararse</h2>
+          <p>
+            Con IPv6, el espacio de direcciones es tan inmenso que el escaneo global deja de ser viable en la
+            práctica. Enumerar todas las direcciones de un /64 es astronómicamente inviable.
+          </p>
+          <p>Esto implica:</p>
+          <ul>
+            <li>El ruido de escaneos indiscriminados disminuirá drásticamente.</li>
+            <li>Los servicios ya no serán tan fáciles de “descubrir por azar”.</li>
+            <li>Los ataques pasarán a ser principalmente dirigidos.</li>
+          </ul>
+          <p>
+            Sin embargo, que haya menos ruido no significa que haya menos peligro. Al contrario: cada ataque será
+            más intencional y probablemente más sofisticado.
+          </p>
+          <p>
+            Por eso es importante endurecer ahora la configuración de AdGuard Home:
+            <span class="highlight">no podemos depender de pasar desapercibidos</span>, sino de ser
+            criptográficamente sólidos y difíciles de explotar.
+          </p>
+        </section>
+
+        <section id="conclusion">
+          <h2>15. Conclusión</h2>
+          <p>
+            Este modelo convierte AdGuard Home expuesto a Internet en un servicio de DNS cifrado
+            <strong>difícil de explorar, mapear y abusar</strong>, aun en un entorno IPv4 hostil.
+          </p>
+          <p>Los puntos clave son:</p>
+          <ul>
+            <li>Superficie de exposición mínima (solo 443 y 853).</li>
+            <li>TLS 1.3 only + Strict-SNI.</li>
+            <li>Uso de logs TLS de Go como fuente de verdad para detectar bots.</li>
+            <li>Fail2ban con reglas específicas para anomalías de handshake.</li>
+            <li>Bloqueo eficiente con ipset.</li>
+            <li>Rate-limit y allowlist geográfico.</li>
+            <li>Acceso administrativo oculto (Tailscale + llaves SSH).</li>
+            <li>Reporte automático de IPs hostiles a AbuseIPDB.</li>
+          </ul>
+          <p>
+            Aunque el VPS gestionado no sea “grande”, la calidad de la seguridad sí puede serlo. Si otros
+            administradores adoptan una arquitectura similar:
+          </p>
+          <ul>
+            <li>AdGuard Home sería un objetivo mucho más difícil globalmente.</li>
+            <li>Las botnets perderían eficacia a gran escala.</li>
+            <li>Subiría el estándar base de seguridad en la comunidad.</li>
+          </ul>
+          <p>
+            Hoy, en IPv4, somos blancos detectables. Mañana, en IPv6, los ataques serán más dirigidos. La mejor
+            preparación es endurecer desde ya.
+          </p>
+        </section>
+      </main>
+
+      <aside>
+        <h3>Índice</h3>
+        <ul class="toc">
+          <li><a href="#intro">1. Introducción</a></li>
+          <li><a href="#surface">2. Superficie de exposición</a></li>
+          <li><a href="#tls">3. TLS 1.3 estricto</a></li>
+          <li><a href="#sni">4. Strict-SNI</a></li>
+          <li><a href="#go-tls">5. TLS en Go (AdGuard)</a></li>
+          <li><a href="#admin">6. Acceso administrativo</a></li>
+          <li><a href="#fail2ban">7. Fail2ban en logs TLS</a></li>
+          <li><a href="#regex">8. Regex específicas</a></li>
+          <li><a href="#dual-defense">9. Doble defensa</a></li>
+          <li><a href="#bans">10. Bans & ipset</a></li>
+          <li><a href="#rate-geo">11. Rate-limit & geo</a></li>
+          <li><a href="#abuseipdb">12. AbuseIPDB</a></li>
+          <li><a href="#ipv4">13. IPv4 hoy</a></li>
+          <li><a href="#ipv6">14. IPv6 mañana</a></li>
+          <li><a href="#conclusion">15. Conclusión</a></li>
+        </ul>
+      </aside>
+    </div>
+
+    <footer>
+      Esta guía puede publicarse libremente (por ejemplo en GitHub o GitHub Pages) para ayudar a otros
+      administradores a endurecer AdGuard Home expuesto a Internet.
+    </footer>
+  </div>
+</body>
+</html>

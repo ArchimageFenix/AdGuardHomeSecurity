@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Colores
+COLOR_HEADER="\e[1;34m" # Azul fuerte para encabezados
+COLOR_DATE="\e[36m"     # Cyan para fecha/hora
+COLOR_SERVICE="\e[35m"  # Magenta para servicio
+COLOR_MSG="\e[33m"      # Amarillo para mensaje
+COLOR_RESET="\e[0m"
+
+read -p "Ingresa la IP que quieres buscar en logs: " ip_address
+
+echo "Si quieres filtrar por rango de fechas, ingresa en formato YYYY-MM-DD. Deja vac▒o para no filtrar."
+
+read -p "Fecha inicio (YYYY-MM-DD): " fecha_inicio
+read -p "Fecha fin (YYYY-MM-DD): " fecha_fin
+
+echo -e "${COLOR_HEADER}Buscando logs para IP: $ip_address ...${COLOR_RESET}"
+
+# Construir comando journalctl con filtros
+journal_cmd="sudo journalctl --reverse"
+
+if [[ -n "$fecha_inicio" ]]; then
+  journal_cmd+=" --since=\"$fecha_inicio 00:00:00\""
+fi
+
+if [[ -n "$fecha_fin" ]]; then
+  journal_cmd+=" --until=\"$fecha_fin 23:59:59\""
+fi
+
+# Ejecutar y filtrar IP
+lines=$(eval $journal_cmd | grep "$ip_address")
+
+if [ -z "$lines" ]; then
+  echo -e "${COLOR_MSG}No se encontraron registros para la IP $ip_address en ese rango de fechas.${COLOR_RESET}"
+  exit 0
+fi
+
+total=$(echo "$lines" | wc -l)
+echo -e "${COLOR_HEADER}Total de intentos encontrados: $total${COLOR_RESET}"
+echo ""
+
+prepare_output() {
+  echo -e "${COLOR_HEADER}Fecha/Hora           | Servicio           | Mensaje${COLOR_RESET}"
+  echo -e "${COLOR_HEADER}---------------------+--------------------+------------------------------------------------${COLOR_RESET}"
+
+  echo "$1" | \
+  while IFS= read -r line; do
+    datetime=$(echo "$line" | awk '{print $1 " " $2 " " $3}')
+    service_field=$(echo "$line" | awk '{print $4}')
+    service=$(echo "$service_field" | sed -E 's/\[[0-9]+\]://' | sed 's/:$//')
+    message=$(echo "$line" | cut -d' ' -f5-)
+    printf "${COLOR_DATE}%-20s${COLOR_RESET} | ${COLOR_SERVICE}%-18s${COLOR_RESET} | ${COLOR_MSG}%-48s${COLOR_RESET}\n" "$datetime" "$service" "$message"
+  done
+  echo -e "${COLOR_HEADER}--------------------------------------------------------------------------------${COLOR_RESET}"
+}
+
+if [ "$total" -gt 100 ]; then
+  prepare_output "$lines" | less -R
+else
+  prepare_output "$lines"
+fi

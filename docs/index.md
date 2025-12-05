@@ -316,7 +316,7 @@
         <div class="card-header">
           <div class="file-icon">🧪</div>
           <div class="file-meta">
-            <div class="file-name">tests.md</div>
+            <div class="file-name">Arquitectura General</div>
             <div class="file-tag">Notas</div>
           </div>
         </div>
@@ -325,7 +325,7 @@
         </div>
         <div class="card-footer">
           <span class="pill">Notas</span>
-          <a class="btn-link" href="https://github.com/TU_USUARIO/TU_REPO/blob/main/tests.md" target="_blank" rel="noopener noreferrer">
+          <a class="btn-link" href="https://github.com/ArchimageFenix/AdGuardHomeSecurity/blob/main/docs/03-arquitectura-general.md" target="_blank" rel="noopener noreferrer">
             <span>Ver archivo</span> ↗
           </a>
         </div>

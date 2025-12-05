@@ -265,7 +265,7 @@
         </div>
         <div class="card-footer">
           <span class="pill">Markdown</span>
-          <a class="btn-link" href="https://github.com/TU_USUARIO/TU_REPO/blob/main/archivo1.md" target="_blank" rel="noopener noreferrer">
+          <a class="btn-link" href="https://github.com/ArchimageFenix/AdGuardHomeSecurity/blob/main/docs/00-introduccion.md" target="_blank" rel="noopener noreferrer">
             <span>Ver archivo</span> ↗
           </a>
         </div>
@@ -285,7 +285,7 @@
         </div>
         <div class="card-footer">
           <span class="pill">YAML</span>
-          <a class="btn-link" href="https://github.com/TU_USUARIO/TU_REPO/blob/main/config.yml" target="_blank" rel="noopener noreferrer">
+          <a class="btn-link" href="https://github.com/ArchimageFenix/AdGuardHomeSecurity/blob/main/docs/01-publico-objetivo-y-alcance.md" target="_blank" rel="noopener noreferrer">
             <span>Ver archivo</span> ↗
           </a>
         </div>

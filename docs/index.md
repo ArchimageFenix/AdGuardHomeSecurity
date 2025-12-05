@@ -10,4 +10,4 @@ Guía práctica de hardening para AdGuard Home en VPS públicos, basada en más 
 - [Arquitectura general](03-arquitectura-general.md)
 - [Scripts](05-scripts.md)
 - [Puertos](06-puertos-tls-y-strict-sni.md)
-- [Cifrados](07-deprecatedciphers.ms)
+- [Cifrados](07-deprecatedciphers.md)

@@ -1,5 +1,5 @@
 La administracion del servidor ha sido una cuestión de leer pero mas allá de caer en el estereotipo de leer libros la forma mas rápida
-que he hallado para aprender sobre bot es por medio de lectura de logs de forma periódica. Esto me ha permitido de certa forma entender
+que he hallado para aprender sobre bot es por medio de lectura de logs de forma periódica. Esto me ha permitido de cierta forma entender
 como "piensan" los atacantes.
 
 Mis log mas comunes al tener los puertos 443 y 853 expuestos a internet:

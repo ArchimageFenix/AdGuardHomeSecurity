@@ -1,7 +1,7 @@
 La administracion del servidor ha sido una cuestión de leer pero mas allá de caer en el estereotipo de leer libros la forma mas rápida
 que he hallado para aprender sobre bot es por medio de lectura de logs de forma periódica. Esto me ha permitido de cierta forma entender
 como "piensan" los atacantes.
-
+```bash
 Mis log mas comunes al tener los puertos 443 y 853 expuestos a internet:
 failregex = ^.*TLS handshake error from <HOST>:.*tls: client offered only unsupported versions.*$
         ^.*TLS handshake error from <HOST>:.*tls: client requested unsupported application protocols.*$
@@ -21,6 +21,8 @@ failregex = ^.*TLS handshake error from <HOST>:.*tls: client offered only unsupp
         TLS handshake error from <HOST>:\d+: tls: unsupported SSLv2 handshake received server=https
         TLS handshake error from <HOST>:\d+: tls: missing signature_algorithms from TLS 1\.2 peer server=https
         ^.*AdGuardHome\[\d+\]: .*TLS handshake error from <HOST>:\d+: tls: no key exchanges supported by both client and server server=https$
+
+```bash
 
 Los log estan en formato REGEX para  herramientas como Fail2ban. Cada una de estas lineas no se redacto en una sola sesión sino que
 a lo largo de los años se fue puliendo y su efectividad puedo decir es del 96% de detecciones de bots.

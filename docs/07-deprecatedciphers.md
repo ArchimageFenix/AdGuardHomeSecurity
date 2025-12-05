@@ -27,3 +27,19 @@ Y tu servidor responde:
 ❌ no cipher suite supported by both client and server
 
 Es decir:
+
+Los bots prueban:
+
+Si aceptas TLS 1.0 / 1.1
+
+Si aceptas RC4, 3DES, MD5
+
+Si tienes fallback inseguro
+
+Si usas certificados débiles
+
+Si hay downgrade attacks posibles
+
+Como tu servidor los bloquea, dejan ese error en el log.
+
+ Eso es una buena señal de seguridad, no una mala.

@@ -9,3 +9,4 @@ Guía práctica de hardening para AdGuard Home en VPS públicos, basada en más 
 - [Threat model](02-threat-model.md)
 - [Arquitectura general](03-arquitectura-general.md)
 - [Scripts](05-scripts.md)
+- [Puertos](06-puertos-tls-y-strict-sni.md)

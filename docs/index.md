@@ -242,7 +242,7 @@
     <header>
       <div class="title-row">
         <h1>📂 Archivos del repositorio</h1>
-        <span class="badge">Vista tipo tarjetas</span>
+        <span class="badge">Card View</span>
       </div>
       <p class="subtitle">
         Selecciona un archivo para verlo en GitHub. Edita este HTML para apuntar cada tarjeta
@@ -276,7 +276,7 @@
         <div class="card-header">
           <div class="file-icon">⚙️</div>
           <div class="file-meta">
-            <div class="file-name">config.yml</div>
+            <div class="file-name">Público Objetivo</div>
             <div class="file-tag">Configuración</div>
           </div>
         </div>
@@ -296,8 +296,8 @@
         <div class="card-header">
           <div class="file-icon">💻</div>
           <div class="file-meta">
-            <div class="file-name">script.sh</div>
-            <div class="file-tag">Script</div>
+            <div class="file-name">Modelo de Amenazas Analizado</div>
+            <div class="file-tag">Threat Model</div>
           </div>
         </div>
         <div class="card-body">
@@ -305,7 +305,7 @@
         </div>
         <div class="card-footer">
           <span class="pill">Shell</span>
-          <a class="btn-link" href="https://github.com/TU_USUARIO/TU_REPO/blob/main/script.sh" target="_blank" rel="noopener noreferrer">
+          <a class="btn-link" href="https://github.com/ArchimageFenix/AdGuardHomeSecurity/blob/main/docs/02-threat-model.md" target="_blank" rel="noopener noreferrer">
             <span>Ver archivo</span> ↗
           </a>
         </div>

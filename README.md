@@ -282,3 +282,8 @@ Si aplicamos este enfoque probado por dos años:
 
 > **Somos un blanco visible hoy,  
 pero podemos ser un blanco blindado mañana.**
+
+About This Guide
+
+This hardening guide is based on over 2 years of real-world experience running AdGuard Home on a public VPS exposed to the Internet.
+All recommendations are derived from observed attack patterns, scanning behavior, abuse attempts, and operational incidents, not from theoretical assumptions.

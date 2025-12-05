@@ -73,3 +73,58 @@ De esta forma, el control administrativo queda completamente aislado del tráfic
 
 En el escenario más común, el flujo de resolución funciona así:
 
+
+En este escenario:
+
+- La VPS actúa como punto de entrada público
+- Unbound realiza la recursión real
+- La red doméstica nunca queda expuesta directamente al Internet público
+- La comunicación VPS ↔ hogar viaja cifrada por Tailscale
+
+Este modo fue especialmente útil para maximizar privacidad y control total de la resolución DNS.
+
+---
+
+## 6. Clientes finales
+
+Los clientes acceden al servicio principalmente mediante:
+
+- DNS privado en Android
+- Dispositivos personales
+- Red local del hogar
+- Conectividad móvil
+
+Los clientes siempre resuelven contra la VPS pública, incluso cuando la recursión real se encuentra en el entorno doméstico.
+
+Esto permite:
+
+- Compatibilidad total
+- Control centralizado
+- Filtrado unificado
+- Estadísticas consolidadas
+
+---
+
+## 7. Principios de diseño aplicados
+
+A nivel arquitectónico, todas las decisiones siguen estos principios:
+
+- Exponer solo lo estrictamente necesario
+- Separar tráfico público de control administrativo
+- Aislar la recursión cuando sea posible
+- Priorizar túneles privados sobre exposición directa
+- Reducir superficie de ataque en cada capa
+- Diseñar siempre asumiendo tráfico hostil por defecto
+
+---
+
+## 8. Evolución de la arquitectura
+
+La arquitectura no ha sido estática. Con el tiempo se han realizado ajustes como:
+
+- Endurecimiento progresivo de TLS
+- Integración de ipset
+- Automatización de análisis de logs
+
+Cada cambio ha surgido como respuesta directa a eventos reales observados en producción.
+

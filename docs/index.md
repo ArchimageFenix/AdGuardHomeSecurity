@@ -256,7 +256,7 @@
         <div class="card-header">
           <div class="file-icon">📄</div>
           <div class="file-meta">
-            <div class="file-name">archivo1.md</div>
+            <div class="file-name">Introducción</div>
             <div class="file-tag">Documentación</div>
           </div>
         </div>

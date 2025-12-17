@@ -18,6 +18,11 @@ La arquitectura está basada en:
 - **Reporte automático a AbuseIPDB**
 - **Acceso administrativo seguro**
 
+
+<img width="1536" height="1024" alt="core design" src="https://github.com/user-attachments/assets/4e05b8b7-50ca-4bc0-bdbe-318e611e9763" />
+
+
+
 Funciona en producción con excelentes resultados:  
 entre **120, 170 hasta 200 IP hostile    s bloqueadas** regularmente, con 0 falsos positivos.
 

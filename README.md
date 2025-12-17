@@ -23,8 +23,9 @@ La arquitectura está basada en:
 
 
 
-Funciona en producción con excelentes resultados:  
+Funciona en producción con junto a Unbound DNS con excelentes resultados:  
 entre **120, 170 hasta 200 IP hostile    s bloqueadas** regularmente, con 0 falsos positivos.
+Además de Recursión autónoma con baja latencia
 
 ---
 

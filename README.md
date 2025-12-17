@@ -76,7 +76,7 @@ Los bots, scanners y fuzzers suelen omitir este campo → son detectados automá
 
 ---
 
-# 4. Backend TLS en Go
+# 4. Backend TLS
 
 AdGuard Home usa la librería `crypto/tls`, que valida:
 - ClientHello

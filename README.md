@@ -282,9 +282,9 @@ Cuando IPv6 domine:
 - y estas defensas serán todavía más importantes.
 
 Si aplicamos este enfoque probado por dos años:
-- AdGuard Home sería un objetivo más duro en todo el mundo
+- AdGuard Home sería un objetivo más difícil de vulnerar
 - las botnets verían reducida su eficacia
-- la comunidad subiría el nivel base de seguridad
+
 
 > **Somos un blanco visible hoy,  
 pero podemos ser un blanco blindado mañana.**
